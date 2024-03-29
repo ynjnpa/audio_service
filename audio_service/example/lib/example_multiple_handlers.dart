@@ -333,7 +333,6 @@ class AudioPlayerHandler extends BaseAudioHandler
             .toList(),
       ));
     } catch (e) {
-      // ignore: avoid_print
       print("Error: $e");
     }
   }
