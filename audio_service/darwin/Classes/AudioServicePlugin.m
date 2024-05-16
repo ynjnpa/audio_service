@@ -288,9 +288,18 @@ static NSMutableDictionary *nowPlayingInfo = nil;
     updated |= [self updateNowPlayingField:MPNowPlayingInfoPropertyPlaybackRate value:(playing ? speed : [NSNumber numberWithDouble: 0.0])];
     updated |= [self updateNowPlayingField:MPNowPlayingInfoPropertyElapsedPlaybackTime value:[NSNumber numberWithDouble:([position doubleValue] / 1000)]];
     MPNowPlayingInfoCenter *center = [MPNowPlayingInfoCenter defaultCenter];
-    if (@available(iOS 13.0, macOS 10.12.2, *)) {
-        center.playbackState = playing ? MPNowPlayingPlaybackStatePlaying : MPNowPlayingPlaybackStatePaused;
-    }
+    //if (@available(iOS 13.0, macOS 10.12.2, *)) {
+    //    center.playbackState = playing ? MPNowPlayingPlaybackStatePlaying : MPNowPlayingPlaybackStatePaused;
+    //}
+
+    // 반영되지 않은 pr : https://github.com/ryanheise/audio_service/pull/900#issuecomment-1737137420
+    NSLog(@"### ENSURE THIS IS UPDATED CODE 0.18.12 Darwin");
+    #if TARGET_OS_OSX
+        if (@available(iOS 13.0, macOS 10.12.2, *)) {
+            center.playbackState = playing ? MPNowPlayingPlaybackStatePlaying : MPNowPlayingPlaybackStatePaused;
+        }
+    #endif
+
     if (updated) {
         //NSLog(@"### updating nowPlayingInfo");
         center.nowPlayingInfo = nowPlayingInfo;
